@@ -3,6 +3,7 @@
   "description": "A limited use case of google maps with clickable markers.",
   "main": "google-maps-limited.js",
   "dependencies": {
+    "@polymer/lit-element": "^0.6.1",
     "@polymer/polymer": "^3.0.0"
   },
   "devDependencies": {
