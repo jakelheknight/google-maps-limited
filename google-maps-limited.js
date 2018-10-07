@@ -9,7 +9,13 @@ window.initMap = function () { window.dispatchEvent(new CustomEvent('google-map-
  * @demo demo/index.html
  */
 class GoogleMapsLimited extends LitElement {
-  static get template() {
+  
+  static get properties() {
+    return {
+      apiKey: {type: String}
+    };
+  }
+  render() {
     return html`
       <style>
         :host {
@@ -17,22 +23,15 @@ class GoogleMapsLimited extends LitElement {
         }
         #map {
           width: 100%;
+          height: 200px;
         }
       </style>
       <div id="map"></div>
-      <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
-      <script>
-      </script>
     `;
   }
 
-  static get properties() {
-    return {
-    };
-  }
-
-  ready() {
-    super.ready();
+  constructor() {
+    super();
     // _mapScriptTag sets up and the google maps loader script tag - we inject it here
     // and after it loads it will fire the google-map-ready event
     this.shadowRoot.appendChild(this._mapScriptTag());
@@ -43,6 +42,16 @@ class GoogleMapsLimited extends LitElement {
         streetViewControl: false,
       });
     });
+  }
+
+  _mapScriptTag() {
+    const lang = 'en'
+    // init google maps
+    const googleMapsLoader = document.createElement('script');
+    googleMapsLoader.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}&callback=initMap`;
+    googleMapsLoader.async = true;
+    googleMapsLoader.defer = true;
+    return googleMapsLoader;
   }
 
 }
