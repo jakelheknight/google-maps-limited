@@ -12,7 +12,15 @@ class GoogleMapsLimited extends LitElement {
   
   static get properties() {
     return {
-      apiKey: {type: String}
+      apiKey: {type: String},
+      lang: {
+        type: String,
+        value: "en"
+      },
+      inChina: {
+        type: Boolean,
+        value: false
+      }
     };
   }
   render() {
@@ -48,7 +56,7 @@ class GoogleMapsLimited extends LitElement {
     const lang = 'en'
     // init google maps
     const googleMapsLoader = document.createElement('script');
-    googleMapsLoader.src = `https://maps.googleapis.com/maps/api/js?key=${this.apiKey}&callback=initMap`;
+    googleMapsLoader.src = `https://maps.${this.inChina ? 'google.cn' : 'googleapis.com'}/maps/api/js?key=${this.apiKey}&language=${lang === 'zh' ? 'zh-TW' : lang}&callback=initMap`;
     googleMapsLoader.async = true;
     googleMapsLoader.defer = true;
     return googleMapsLoader;
