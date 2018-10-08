@@ -9,7 +9,7 @@ window.initMap = function () { window.dispatchEvent(new CustomEvent('google-map-
  * @demo demo/index.html
  */
 class GoogleMapsLimited extends LitElement {
-  
+
   static get properties() {
     return {
       apiKey: {type: String}
@@ -30,11 +30,13 @@ class GoogleMapsLimited extends LitElement {
     `;
   }
 
+  firstUpdated (p) {
+    this.shadowRoot.appendChild(this._mapScriptTag());
+    super.firstUpdated(p);
+  }
+
   constructor() {
     super();
-    // _mapScriptTag sets up and the google maps loader script tag - we inject it here
-    // and after it loads it will fire the google-map-ready event
-    this.shadowRoot.appendChild(this._mapScriptTag());
     window.addEventListener('google-map-ready', () => {
       this._mapRef = new google.maps.Map(this.shadowRoot.querySelector('#map'), {
         center: { lat: 40, lng: -112 },
