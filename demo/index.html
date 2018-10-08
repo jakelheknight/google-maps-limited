@@ -18,6 +18,11 @@
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
       </style>
+      <style>
+        google-maps-limited {
+          height: 60vw;
+        }
+      </style>
     </custom-style>
   </head>
   <body>
@@ -25,7 +30,20 @@
       <h3>Basic google-maps-limited demo</h3>
       <demo-snippet>
         <template>
-          <google-maps-limited apiKey="AIzaSyAk9Iz8IugBQMiaJoUK-Np1W89pMFVll-c"></google-maps-limited>
+          <google-maps-limited></google-maps-limited>
+          <script>
+            const googleMapsLimitedRef = document.querySelector("google-maps-limited");
+            googleMapsLimitedRef.apiKey = "AIzaSyBmiQk2mkR6HL58SQCPElYJqSgiceH-qIo";
+            googleMapsLimitedRef.markers = [
+              {
+                position: {lat:0, lng: 0}  
+              },
+              {
+                position: {lat:41, lng:-112}
+              },
+            ]
+
+          </script>
         </template>
       </demo-snippet>
     </div>
