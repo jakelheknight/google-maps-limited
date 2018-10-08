@@ -50,6 +50,7 @@ class GoogleMapsLimited extends LitElement {
         streetViewControl: false,
       });
       this._setMarkers();
+      this._setDefaultBounds();
     });
   }
 
@@ -81,6 +82,22 @@ class GoogleMapsLimited extends LitElement {
     }, []);
   }
 
+  _setDefaultBounds () {
+    if (this._markers.length === 0) {
+      // show the whole world if there are no markers
+      var worldBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(70.4043, -143.5291), // Top-left
+        new google.maps.LatLng(-46.11251, 163.4288) // Bottom-right
+      );
+      this._mapRef.fitBounds(worldBounds, 0);
+    } else {
+      var initialBounds = this._markers.reduce((bounds, marker) => {
+        bounds.extend(marker.getPosition());
+        return bounds;
+      }, new google.maps.LatLngBounds());
+      this._mapRef.fitBounds(initialBounds);
+    }
+  }
 }
 
 window.customElements.define('google-maps-limited', GoogleMapsLimited);
