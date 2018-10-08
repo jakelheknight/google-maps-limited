@@ -18,19 +18,14 @@
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
       </style>
-      <style>
-        google-maps-limited {
-          height: 60vw;
-        }
-      </style>
     </custom-style>
   </head>
   <body>
-    <div class="vertical-section-container centered">
+    <div class="vertical-section-container">
       <h3>Basic google-maps-limited demo</h3>
       <demo-snippet>
         <template>
-          <google-maps-limited></google-maps-limited>
+          <google-maps-limited style="height:65vh;width:80vw"></google-maps-limited>
           <script>
             const googleMapsLimitedRef = document.querySelector("google-maps-limited");
             googleMapsLimitedRef.apiKey = "AIzaSyBmiQk2mkR6HL58SQCPElYJqSgiceH-qIo";
