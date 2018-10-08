@@ -21,7 +21,9 @@ class GoogleMapsLimited extends LitElement {
         type: Boolean,
         value: false
       },
-      markers: {type: Array}
+      markers: {
+        type: Object
+      }
     };
   }
   render() {
@@ -42,20 +44,20 @@ class GoogleMapsLimited extends LitElement {
   constructor() {
     super();
     // _mapScriptTag sets up and the google maps loader script tag - we inject it here
-    // and after it loads it will fire the google-map-ready event
+    // and after it loads it will fire the google-map-ready event  
     window.addEventListener('google-map-ready', () => {
       this._mapRef = new google.maps.Map(this.shadowRoot.querySelector('#map'), {
         center: { lat: 40, lng: -112 },
         zoom: 5,
         streetViewControl: false,
       });
-      this._setMarkers();
-      this._setDefaultBounds();
+      this._putMarkersOnMap(this._markers);
     });
   }
 
   firstUpdated() {
     this.shadowRoot.appendChild(this._mapScriptTag());
+    super.firstUpdated();
   }
 
   _mapScriptTag() {
@@ -68,9 +70,19 @@ class GoogleMapsLimited extends LitElement {
     return googleMapsLoader;
   }
 
-  _setMarkers() {
-    if(!this._mapRef || !this.markers) return;
-    this._markers = this.markers.reduce((acc, item) => {
+  set markers(markers) {
+    if(!markers) return;
+    this._putMarkersOnMap(markers);
+    this._markers = markers;
+  }
+  
+  get markers() {
+    return this._markers;
+  }
+
+  _putMarkersOnMap(markers) {
+    if(!this._mapRef || !markers) return;
+    this._mapMarkers = markers.reduce((acc, item) => {
       if(item.position){
         acc.push(new google.maps.Marker({
           position: item.position,
@@ -80,6 +92,7 @@ class GoogleMapsLimited extends LitElement {
       }
       return acc;
     }, []);
+    this._setDefaultBounds ();
   }
 
   _setDefaultBounds () {
@@ -91,7 +104,7 @@ class GoogleMapsLimited extends LitElement {
       );
       this._mapRef.fitBounds(worldBounds, 0);
     } else {
-      var initialBounds = this._markers.reduce((bounds, marker) => {
+      var initialBounds = this._mapMarkers.reduce((bounds, marker) => {
         bounds.extend(marker.getPosition());
         return bounds;
       }, new google.maps.LatLngBounds());
