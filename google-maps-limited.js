@@ -37,8 +37,6 @@ class GoogleMapsLimited extends LitElement {
 
   constructor() {
     super();
-    // _mapScriptTag sets up and the google maps loader script tag - we inject it here
-    // and after it loads it will fire the google-map-ready event
     window.addEventListener('google-map-ready', () => {
       this._mapRef = new google.maps.Map(this.shadowRoot.querySelector('#map'), {
         center: { lat: 40, lng: -112 },
