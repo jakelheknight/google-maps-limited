@@ -1,14 +1,16 @@
 {
   "name": "google-maps-limited",
+  "version": "1.0.0",
   "description": "A limited use case of google maps with clickable markers.",
   "main": "google-maps-limited.js",
   "dependencies": {
-    "@polymer/lit-element": "^0.6.1",
-    "@polymer/polymer": "^3.0.0"
+    "@polymer/lit-element": "^0.6.1"
   },
   "devDependencies": {
     "@polymer/iron-demo-helpers": "^3.0.0-pre.19",
     "@webcomponents/webcomponentsjs": "^2.0.0",
-    "wct-browser-legacy": "^1.0.0"
-  }
+    "wct-browser-legacy": "^1.0.0",
+    "@polymer/polymer": "^3.0.0"
+  },
+  "license": "MIT"
 }
