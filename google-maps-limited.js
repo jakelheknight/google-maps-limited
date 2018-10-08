@@ -20,7 +20,8 @@ class GoogleMapsLimited extends LitElement {
       inChina: {
         type: Boolean,
         value: false
-      }
+      },
+      markers: {type: Array}
     };
   }
   render() {
@@ -31,7 +32,7 @@ class GoogleMapsLimited extends LitElement {
         }
         #map {
           width: 100%;
-          height: 200px;
+          height: 100%;
         }
       </style>
       <div id="map"></div>
@@ -42,14 +43,18 @@ class GoogleMapsLimited extends LitElement {
     super();
     // _mapScriptTag sets up and the google maps loader script tag - we inject it here
     // and after it loads it will fire the google-map-ready event
-    this.shadowRoot.appendChild(this._mapScriptTag());
     window.addEventListener('google-map-ready', () => {
       this._mapRef = new google.maps.Map(this.shadowRoot.querySelector('#map'), {
         center: { lat: 40, lng: -112 },
         zoom: 5,
         streetViewControl: false,
       });
+      this._setMarkers();
     });
+  }
+
+  firstUpdated() {
+    this.shadowRoot.appendChild(this._mapScriptTag());
   }
 
   _mapScriptTag() {
@@ -60,6 +65,20 @@ class GoogleMapsLimited extends LitElement {
     googleMapsLoader.async = true;
     googleMapsLoader.defer = true;
     return googleMapsLoader;
+  }
+
+  _setMarkers() {
+    if(!this._mapRef || !this.markers) return;
+    this._markers = this.markers.reduce((acc, item) => {
+      if(item.position){
+        acc.push(new google.maps.Marker({
+          position: item.position,
+          map: this._mapRef
+        }));
+        return acc;
+      }
+      return acc;
+    }, []);
   }
 
 }
