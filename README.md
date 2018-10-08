@@ -39,7 +39,7 @@ markers:  // an array of objects that represent map markers. Setter so must be a
   }],
 icon: DEFAULT_ICON, // We set one but if you dont like it change it.
 selectedIcon: DEFAULT_SELECTED_ICON, // We set one but if you dont like it change it.
-selectedMarkerId: INDEX_OF_SELECTED_ICON // We set this to change selected icon exturnally. Setter so must be assigned to work properly.
+selectedMarkerId: INDEX_OF_SELECTED_ICON // We set this to change selected icon externally. Setter so must be assigned to work properly.
 // Fires 'map-pin-selected' event when selected Marker is changed.
 ```
 
@@ -47,7 +47,7 @@ selectedMarkerId: INDEX_OF_SELECTED_ICON // We set this to change selected icon 
 
 ### Install the Polymer-CLI
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and npm (packaged with [Node.js](https://nodejs.org)) installed. Run `npm install` to install your element's dependencies, then run `polymer serve` to serve your element locally. Right now the api key is hard coded for the demo. A pr is forth coming where you will have to eneter it in some way. For now please be kind with your demo usage.
+First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and npm (packaged with [Node.js](https://nodejs.org)) installed. Run `npm install` to install your element's dependencies, then run `polymer serve` to serve your element locally. Right now the api key is hard coded for the demo. A pr is forth coming where you will have to enter it in some way. For now please be kind with your demo usage.
 
 ### Viewing Your changes
 
