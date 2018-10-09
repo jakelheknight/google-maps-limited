@@ -27,7 +27,7 @@ import "google-maps-limited/google-maps-limited.js";
 ```
 Into your project then call it and pass your key to the apiKey property.
 
-```JSON
+```javascript
 properties:
 apiKey: API_KEY, // Your google maps api key
 markers:  // an array of objects that represent map markers. Setter so must be assigned to work properly
