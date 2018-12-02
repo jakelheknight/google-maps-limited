@@ -30,7 +30,7 @@ Into your project then call it and pass your key to the apiKey property.
 ```javascript
 properties:
 apiKey: API_KEY, // Your google maps api key
-markers:  // an array of objects that represent map markers. Setter so must be assigned to work properly
+markers:  // an array of objects that represent map markers. Setter so property must be assigned with = opperator to work properly
   [{
     position: {lat: Your lat, lgn: Your long},
     icon: icon to overRide default,
