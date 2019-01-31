@@ -1,4 +1,4 @@
-import {html, LitElement} from '@polymer/lit-element';
+import {html, LitElement} from 'lit-element';
 window.initMap = function () { window.dispatchEvent(new CustomEvent('google-map-ready')); }; // eslint-disable-line no-unused-vars
 
 /**
@@ -9,7 +9,7 @@ window.initMap = function () { window.dispatchEvent(new CustomEvent('google-map-
  * @demo demo/index.html
  */
 class GoogleMapsLimited extends LitElement {
-
+  
   static get properties() {
     return {
       apiKey: {type: String},
@@ -21,7 +21,7 @@ class GoogleMapsLimited extends LitElement {
       selectedIcon: {type: String}
     };
   }
-
+  
   render() {
     return html`
       <style>
@@ -39,6 +39,8 @@ class GoogleMapsLimited extends LitElement {
 
   constructor() {
     super();
+    // _mapScriptTag sets up and the google maps loader script tag - we inject it here
+    // and after it loads it will fire the google-map-ready event  
     window.addEventListener('google-map-ready', () => {
       this._mapRef = new google.maps.Map(this.shadowRoot.querySelector('#map'), {
         center: { lat: 40, lng: -112 },
@@ -52,7 +54,23 @@ class GoogleMapsLimited extends LitElement {
       this._infoWindow.addListener('closeclick', () => {
         this.selectedMarkerId = null;
       });
+
+      google.maps.event.addListener(this._mapRef, 'click', (event) => {
+
+        this.markers = [
+          {
+            position: {lat:event.latLng.lat(), lng:event.latLng.lng()},
+            InfoWindowContent: "User Selected Point"
+          }  ];
+        this.dispatchEvent(new CustomEvent('lag-long-chosen', {bubbles:true, composed:true, detail:{lat:event.latLng.lat(), long: event.latLng.lng()}}));
+
+
+      });
+
     });
+
+  
+
     this.icon = this.icon || 'data:image/svg+xml;utf-8, <svg xmlns="http://www.w3.org/2000/svg" width="30" height="47"><g data-name="Layer 2"><path d="M15 46.59a3.11 3.11 0 0 1-3.15-3c-.91-8.7-4.07-12.72-6.85-16.26C2.51 24.17.17 21.19.17 16a14.83 14.83 0 0 1 29.66 0c0 5.19-2.34 8.17-4.83 11.33-2.78 3.54-5.94 7.56-6.87 16.25A3 3 0 0 1 15 46.59z" opacity=".33"/><path fill="none" d="M0 0h30v47H0z"/><path d="M15 .17A14.84 14.84 0 0 0 .17 15c0 5.19 2.34 8.17 4.83 11.33 2.78 3.54 5.94 7.56 6.87 16.25a3.11 3.11 0 0 0 3.14 3 3 3 0 0 0 3.11-3c.93-8.69 4.09-12.71 6.87-16.25 2.49-3.16 4.83-6.14 4.83-11.33A14.84 14.84 0 0 0 15 .17z" fill="rgb(255,255,255)"/><path d="M15 2.17A12.84 12.84 0 0 0 2.17 15c0 10 9.91 10.47 11.7 27.45a1.13 1.13 0 1 0 2.26 0C17.92 25.47 27.83 25 27.83 15A12.84 12.84 0 0 0 15 2.17zm0 17.29A4.46 4.46 0 1 1 19.46 15 4.46 4.46 0 0 1 15 19.46z" fill="rgb(231,69,60)"/></g></svg>';
     this.selectedIcon = this.selectedIcon || 'data:image/svg+xml;utf-8, <svg xmlns="http://www.w3.org/2000/svg" width="30" height="47"><g data-name="Layer 2"><path d="M15 46.59a3.11 3.11 0 0 1-3.15-3c-.91-8.7-4.07-12.72-6.85-16.26C2.51 24.17.17 21.19.17 16a14.83 14.83 0 0 1 29.66 0c0 5.19-2.34 8.17-4.83 11.33-2.78 3.54-5.94 7.56-6.87 16.25A3 3 0 0 1 15 46.59z" opacity=".33"/><path fill="none" d="M0 0h30v47H0z"/><path d="M15 .17A14.84 14.84 0 0 0 .17 15c0 5.19 2.34 8.17 4.83 11.33 2.78 3.54 5.94 7.56 6.87 16.25a3.11 3.11 0 0 0 3.14 3 3 3 0 0 0 3.11-3c.93-8.69 4.09-12.71 6.87-16.25 2.49-3.16 4.83-6.14 4.83-11.33A14.84 14.84 0 0 0 15 .17z" fill="rgb(255,255,255)"/><path d="M15 2.17A12.84 12.84 0 0 0 2.17 15c0 10 9.91 10.47 11.7 27.45a1.13 1.13 0 1 0 2.26 0C17.92 25.47 27.83 25 27.83 15A12.84 12.84 0 0 0 15 2.17zm0 17.29A4.46 4.46 0 1 1 19.46 15 4.46 4.46 0 0 1 15 19.46z" fill="rgb(135,185,64)"/></g></svg>';
   }
@@ -74,10 +92,19 @@ class GoogleMapsLimited extends LitElement {
 
   set markers(markers) {
     if(!markers) return;
-    this._putMarkersOnMap(markers);
-    this._markers = markers;
-  }
+    if (this._mapMarkers !== undefined)
+    {
+      // clear the old markers
+      for(let i=0; i<this._mapMarkers.length; i++){
+        this._mapMarkers[i].setMap(null);
+      }
+    }
 
+    this._markers = markers;
+    this._putMarkersOnMap(markers);
+    
+  }
+  
   get markers() {
     return this._markers;
   }
@@ -138,6 +165,7 @@ class GoogleMapsLimited extends LitElement {
       }, new google.maps.LatLngBounds());
       this._mapRef.fitBounds(initialBounds);
     }
+    this._mapRef.setZoom(5);
   }
 }
 
