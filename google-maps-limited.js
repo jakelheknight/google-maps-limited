@@ -104,6 +104,7 @@ class GoogleMapsLimited extends LitElement {
 
   _putMarkersOnMap(markers) {
     if(!this._mapRef || !markers) return;
+    if(this._mapMarkers) this._mapMarkers.map((marker) => marker.setMap(null));
     this._mapMarkers = markers.reduce((acc, item, index) => {
       if(item.position){
         const mapMarker = new google.maps.Marker({

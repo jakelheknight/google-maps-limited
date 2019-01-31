@@ -26,9 +26,10 @@
       <demo-snippet>
         <template>
           <google-maps-limited style="height:65vh;width:80vw"></google-maps-limited>
+          <button onclick='changeMarkers()'></button>
           <script>
             const googleMapsLimitedRef = document.querySelector("google-maps-limited");
-            googleMapsLimitedRef.apiKey = "AIzaSyBmiQk2mkR6HL58SQCPElYJqSgiceH-qIo";
+            googleMapsLimitedRef.apiKey = "AIzaSyBk3H3mZgWUkh-IKn42UQwtmNLnYvG6TqI";
             googleMapsLimitedRef.markers = [
               {
                 position: {lat:41, lng:-112},
@@ -48,7 +49,23 @@
                 InfoWindowContent: "<h3>The Cape Elizabeth, ME Temple</h3>"
               }
             ]
+            function changeMarkers(e) {
+              console.log(e);
+              googleMapsLimitedRef.markers = [              
+              {
+                position: {lat:50, lng:-112},
+                InfoWindowContent: "<h3>Not The Salt Lake City, UT Temple</h3>"
 
+              },
+              {
+                position: {lat:33, lng:-117},
+                InfoWindowContent: "<h3>The San Diego, CA Temple</h3>"
+              },
+              {
+                position: {lat:29, lng:-82},
+                InfoWindowContent: "<h3>The Orlando, FL Temple</h3>"
+              }]
+            }
           </script>
         </template>
       </demo-snippet>
