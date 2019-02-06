@@ -1,6 +1,6 @@
 {
   "name": "google-maps-limited",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A limited use case of google maps with clickable markers.",
   "main": "google-maps-limited.js",
   "dependencies": {
