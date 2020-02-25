@@ -1,11 +1,11 @@
 # google-maps-limited
 
-A limited use case of google maps with clickable markers. Great for your basic use case, should be got do go every where lit element is served.
+A limited use case of google maps with clickable markers. Great for your basic use cases, should be good to go every where lit element is served.
 
 ## Using google-maps-limited
 ### Before you start
 
-You will be needing your own api key from google. Since this key is passed as a parameter on the url you can't hid it so make sure you restrict it according to your use case.
+You will be needing your own api key from google. Since this key is passed as a parameter on the url you can't hide it so make sure you restrict it according to your use case.
 You can set up your own api key at [Googles Developer Console](https://console.developers.google.com/apis/).
 
 ### Getting the element on the page
@@ -25,7 +25,6 @@ or
 ```javascript
 import "google-maps-limited/google-maps-limited.js";
 ```
-Into your project then call it and pass your key to the apiKey property.
 
 ```javascript
 properties:
